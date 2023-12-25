@@ -34,14 +34,14 @@ public class AcademyManagement {
             System.out.println("1. Quản lý lớp");
             System.out.println("2. Quản lý sinh viên");
             System.out.println("3. Thoát");
-            System.out.println("Mời bạn nhập lựa chọn");
+            System.out.println("Mời bạn nhập lựa chọn (1-3)");
             int choice = Integer.parseInt(sc.nextLine());
             switch (choice){
                 case 1:
-                    ClassManagement.displayData();
+                    ClassManagement.displayData(sc);
                     break;
                 case 2:
-
+                    StudentManagement.displayData(sc);
                     break;
                 case 3:
                     System.exit(0);
