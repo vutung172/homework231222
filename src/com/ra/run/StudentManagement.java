@@ -60,7 +60,7 @@ public class StudentManagement{
                     sumGpa();
                     break;
                 case 9:
-
+                    sumPass();
                     break;
                 case 10:
                     AcademyManagement.display();
@@ -318,7 +318,13 @@ public class StudentManagement{
     }
 
     public static void sumPass(){
-
+        int countPass = 0;
+        for (Student st: students) {
+            if (st.getAvgMark() >=5){
+                countPass++;
+            }
+        }
+        System.out.printf("Số lượng sinh viên qua môn là %d",countPass);
     }
 
 }

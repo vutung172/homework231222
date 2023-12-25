@@ -211,7 +211,7 @@ public class Student implements IStudentManagement,IValid,ISearch{
 
     @Override
     public void displayData() {
-        System.out.printf("%10s | %20s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %15s |\n",getStudentId(),getStudentName(),getAge(),isSex()?"Nam":"Nữ",getStudentClass(),getListMarkJavaScript().getLast(),getListMarkJavaCore().getLast(),getListMarkJavaWeb().getLast(),getAvgMark(),getGpa(),isStudentStatus()?"Đang hoạt động":"Đã nghỉ học");
+        System.out.printf("%10s | %20s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %15s |\n",getStudentId(),getStudentName(),getAge(),isSex()?"Nam":"Nữ",getStudentClass(),getListMarkJavaScript().getLast(),getListMarkJavaCore().getLast(),getListMarkJavaWeb().getLast(),getAvgMark(),getGpa(),isStudentStatus()?"Đang hoạt động":"Thôi học");
     }
 
     public void calAvgMark(){
@@ -255,7 +255,6 @@ public class Student implements IStudentManagement,IValid,ISearch{
     public Student searchByID(String id) {
         if (this.studentId.equals(id))
             return this;
-
         return null;
     }
 
