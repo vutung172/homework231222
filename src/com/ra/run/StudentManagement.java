@@ -318,7 +318,6 @@ public class StudentManagement{
     }
 
     public static void sumPass(){
-        System.out.println();
 
     }
 
