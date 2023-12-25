@@ -2,7 +2,6 @@ package com.ra.entity;
 
 
 import com.ra.run.AcademyManagement;
-import com.ra.run.ClassManagement;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -130,10 +129,11 @@ public class Student implements IStudentManagement,IValid,ISearch{
     @Override
     public void inputData(Scanner sc) {
         String select;
+        //Nhập mã sinh viên, kiểm tra mã đúng quy định, kiểm tra mã đã tồn tại trong list
         int count;
         do {
             count = 0;
-            System.out.println("Nhập vào mã sinh viên; ");
+            System.out.println("Nhập vào mã sinh viên: ");
             this.studentId = sc.nextLine();
             if (!isValid("S.{5}",this.studentId)){
                 System.err.println("Mã sinh viên không hợp lệ");
@@ -146,6 +146,7 @@ public class Student implements IStudentManagement,IValid,ISearch{
                 }
             }
         } while (!isValid("S.{5}",this.studentId) || count != 0);
+        //Nhập tên sinh viên, kiểm tra tên có đúng quy định
         do {
             System.out.println("Nhập tên sinh viên:");
             this.studentName = sc.nextLine();
@@ -153,6 +154,7 @@ public class Student implements IStudentManagement,IValid,ISearch{
                 System.err.println("Tên sinh viên không hợp lệ (gồm 20 đến 50 kí tự)");
 
         } while (!isValid(".{20,50}",this.studentName));
+        //Nhập vào tuổi, kiểm tra tuổi đúng quy định
         do {
             System.out.println("Nhâp vào tuổi: ");
             this.age = Integer.parseInt(sc.nextLine());
@@ -160,65 +162,74 @@ public class Student implements IStudentManagement,IValid,ISearch{
                 System.err.println("Độ tuổi không phù hợp (!Phải từ 18 tuổi trở lên)");
             }
         } while (this.age <18 );
+        //Nhập giới tính
         System.out.println("Nhập vào giới tính: ");
         this.sex = Boolean.parseBoolean(sc.nextLine());
-        System.out.println("Nhập vào trạng thái sinh viên: ");
-        this.studentStatus = Boolean.parseBoolean(sc.nextLine());
+        //Nhập lớp sinh viên
         System.out.println("Bạn có muốn cho lớp cho sinh viên (Y/N): ");
         select = sc.nextLine();
         if (select.equalsIgnoreCase("Y")){
-            AcademyManagement.getClasses().forEach(c -> {
-                System.out.printf("%5s | %15s | %30s | %10s |\n", "ID", "Tên lớp", "Mô tả", "Trạng thái");
-                c.displayData();
-            });
-            do {
-                System.out.println("Nhập vào mã lớp bạn muốn chọn:");
-                select = sc.nextLine();
-                for (StudentClass c:AcademyManagement.getClasses()) {
-                    if (c.searchByID(select) != null){
-                        this.studentClass = c;
-                        count++;
+            if (!AcademyManagement.getClasses().isEmpty()){
+                AcademyManagement.getClasses().forEach(c -> {
+                    System.out.printf("%5s | %15s | %30s | %10s |\n", "ID", "Tên lớp", "Mô tả", "Trạng thái");
+                    c.displayData();
+                });
+                do {
+                    System.out.println("Nhập vào mã lớp bạn muốn chọn:");
+                    select = sc.nextLine();
+                    for (StudentClass c:AcademyManagement.getClasses()) {
+                        if (c.searchByID(select) != null){
+                            this.studentClass = c;
+                            count++;
+                            break;
+                        }
+                    }
+                    if (count == 0){
+                        System.err.println("Lớp bạn chọn không tồn tại, mời nhập lại");
+                    } else {
                         break;
                     }
-                }
-                if (count == 0){
-                    System.err.println("Lớp bạn chọn không tồn tại, mời nhập lại");
-                }
-            } while(count == 0);
-            do {
-                System.out.println("Nhập vào điểm môn Java Script: ");
-                float pointJS = Float.parseFloat(sc.nextLine());
-                this.listMarkJavaScript.add(pointJS);
-                System.out.println("Bạn có muốn tiếp tục (Y/N):");
-                select = sc.nextLine();
-            } while (select.equalsIgnoreCase("Y"));
-            do {
-                System.out.println("Nhập vào điểm môn Java Core");
-                float pointJC = Float.parseFloat(sc.nextLine());
-                listMarkJavaCore.add(pointJC);
-                System.out.println("Bạn có muốn tiếp tục (Y/N):");
-                select = sc.nextLine();
-            } while (select.equalsIgnoreCase("Y"));
-            do {
-                System.out.println("Nhập vào điểm môn Java Web");
-                float pointJW = Float.parseFloat(sc.nextLine());
-                listMarkJavaWeb.add(pointJW);
-                System.out.println("Bạn có muốn tiếp tục (Y/N):");
-                select = sc.nextLine();
-            } while (select.equalsIgnoreCase("Y"));
+                } while(true);
+                do {
+                    System.out.println("Nhập vào điểm môn Java Script: ");
+                    float pointJS = Float.parseFloat(sc.nextLine());
+                    this.listMarkJavaScript.add(pointJS);
+                    System.out.println("Bạn có muốn tiếp tục (Y/N):");
+                    select = sc.nextLine();
+                } while (select.equalsIgnoreCase("Y"));
+                do {
+                    System.out.println("Nhập vào điểm môn Java Core");
+                    float pointJC = Float.parseFloat(sc.nextLine());
+                    listMarkJavaCore.add(pointJC);
+                    System.out.println("Bạn có muốn tiếp tục (Y/N):");
+                    select = sc.nextLine();
+                } while (select.equalsIgnoreCase("Y"));
+                do {
+                    System.out.println("Nhập vào điểm môn Java Web");
+                    float pointJW = Float.parseFloat(sc.nextLine());
+                    listMarkJavaWeb.add(pointJW);
+                    System.out.println("Bạn có muốn tiếp tục (Y/N):");
+                    select = sc.nextLine();
+                } while (select.equalsIgnoreCase("Y"));
+            } else {
+                System.err.println("Chưa có lớp nào để chọn");
+            }
         }
+        //Nhập Trạng thái sinh viên
+        System.out.println("Nhập vào trạng thái sinh viên: ");
+        this.studentStatus = Boolean.parseBoolean(sc.nextLine());
     }
 
     @Override
     public void displayData() {
-        System.out.printf("%10s | %20s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %15s |\n",getStudentId(),getStudentName(),getAge(),isSex()?"Nam":"Nữ",getStudentClass(),getListMarkJavaScript().getLast(),getListMarkJavaCore().getLast(),getListMarkJavaWeb().getLast(),getAvgMark(),getGpa(),isStudentStatus()?"Đang hoạt động":"Thôi học");
+        System.out.printf("%10s | %50s | %10s | %10s | %10s | %10s | %10s | %10s | %10.2f | %10s | %15s |\n",getStudentId(),getStudentName(),getAge(),isSex()?"Nam":"Nữ",(getStudentClass() == null)?"Chưa có lớp":getStudentClass().getClassName(),(getListMarkJavaScript().isEmpty())?"Chưa có điểm":listMarkJavaScript.get(listMarkJavaScript.size()-1),(getListMarkJavaCore().isEmpty())?"Chưa có điểm":listMarkJavaCore.get(listMarkJavaCore.size()-1),(getListMarkJavaWeb().isEmpty())?"Chưa có điểm":listMarkJavaWeb.get(listMarkJavaWeb.size()-1),getAvgMark(),getGpa(),isStudentStatus()?"Đang hoạt động":"Thôi học");
     }
 
     public void calAvgMark(){
         if (!listMarkJavaScript.isEmpty()){
             if (!listMarkJavaCore.isEmpty()){
                 if (!listMarkJavaWeb.isEmpty()){
-                    this.avgMark = (listMarkJavaScript.getLast()+listMarkJavaCore.getLast()+listMarkJavaWeb.getLast())/3;
+                    this.avgMark = (listMarkJavaScript.get(listMarkJavaScript.size()-1)+listMarkJavaCore.get(listMarkJavaCore.size()-1)+listMarkJavaWeb.get(listMarkJavaWeb.size()-1))/3;
                 } else {
                     System.out.println(this.studentName+": Chưa có điểm JavaWeb");
                 }
@@ -230,8 +241,11 @@ public class Student implements IStudentManagement,IValid,ISearch{
         }
     }
 
-    public String getGPA(){
-        if (0 <= avgMark && avgMark < 5){
+    public void getGPA(){
+        if (avgMark == 0){
+            setGpa("Chưa xếp loại");
+        }
+        else if (0 < avgMark && avgMark < 5){
             setGpa("Yếu");
         } else if (5 <= avgMark && avgMark <7) {
             setGpa("Trung bình");
@@ -240,7 +254,6 @@ public class Student implements IStudentManagement,IValid,ISearch{
         } else {
             setGpa("Giỏi");
         }
-        return getGpa();
     }
 
     @Override
@@ -249,7 +262,6 @@ public class Student implements IStudentManagement,IValid,ISearch{
         Matcher m = p.matcher((CharSequence) obj);
         return m.matches();
     }
-
 
     @Override
     public Student searchByID(String id) {

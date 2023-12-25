@@ -16,7 +16,7 @@ public class StudentManagement{
         do {
             System.out.println("***********************QUẢN LÝ SINH VIÊN******************");
             System.out.println("1. Thêm mới sinh viên");
-            System.out.println("2. Cập nhật thông tin sinh viê");
+            System.out.println("2. Cập nhật thông tin sinh viên");
             System.out.println("3. Hiển thị thông tin sinh viên");
             System.out.println("4. Tính điểm trung bình");
             System.out.println("5. Xếp loại sinh viên");
@@ -47,14 +47,18 @@ public class StudentManagement{
                     students.sort((st1, st2) -> (int) (st1.getAvgMark() - st2.getAvgMark()));
                     break;
                 case 7:
-                    System.out.println("Nhập vào tên sinh viên muốn tìm");
-                    String str = sc.nextLine();
-                    System.out.printf("%10s | %20s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %15s |\n","ID","Họ và tên","Tuổi","Giới tính","Lớp","Điểm JavaScript","Điểm JavaCore","Điểm JavaWeb","Điểm TB","Loại","Tình trạng");
-                    students.forEach(st -> {
-                        if (st.getStudentName().contains(str)){
-                            st.displayData();
-                        }
-                    } );
+                    do {
+                        System.out.println("Nhập vào tên sinh viên muốn tìm");
+                        String str = sc.nextLine();
+                        System.out.printf("%10s | %20s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %15s |\n","ID","Họ và tên","Tuổi","Giới tính","Lớp","Điểm JavaScript","Điểm JavaCore","Điểm JavaWeb","Điểm TB","Loại","Tình trạng");
+                        students.forEach(st -> {
+                            if (st.getStudentName().contains(str)){
+                                st.displayData();
+                            }
+                        } );
+                        System.out.println("Bạn có muốn tiếp tục tìm tên học sinh (Y/N):");
+                        select = sc.nextLine();
+                    } while(select.equalsIgnoreCase("Y"));
                     break;
                 case 8:
                     sumGpa();
@@ -83,13 +87,13 @@ public class StudentManagement{
         } while (select.equalsIgnoreCase("Y"));
     }
     public static void show(){
-        System.out.printf("%10s | %20s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %15s |\n","ID","Họ và tên","Tuổi","Giới tính","Lớp","Điểm JavaScript","Điểm JavaCore","Điểm JavaWeb","Điểm TB","Loại","Tình trạng");
+        System.out.printf("%10s | %50s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %15s |\n","ID","Họ và tên","Tuổi","Giới tính","Lớp","Điểm JavaScript","Điểm JavaCore","Điểm JavaWeb","Điểm TB","Loại","Tình trạng");
         students.forEach(Student::displayData);
     }
 
     public static void updateStudent(Scanner sc) {
         do {
-            System.out.println("Nhập vào ID lớp bạn muốn cập nhật");
+            System.out.println("Nhập vào ID sinh viên bạn muốn cập nhật");
             String id = sc.nextLine();
             int count = 0;
             for (Student st : students) {
@@ -97,6 +101,7 @@ public class StudentManagement{
                     count++;
                     do {
                         String string;
+                        System.out.printf("%10s | %50s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %10s | %15s |\n","ID","Họ và tên","Tuổi","Giới tính","Lớp","Điểm JavaScript","Điểm JavaCore","Điểm JavaWeb","Điểm TB","Loại","Tình trạng");
                         st.displayData();
                         System.out.println("Chọn mục bạn muốn cập nhật:");
                         System.out.println("1. Tên sinh viên");
@@ -106,6 +111,7 @@ public class StudentManagement{
                         System.out.println("5. Thêm điểm");
                         System.out.println("6. Sửa điểm");
                         System.out.println("7. Thoát");
+                        System.out.println("Lựa chọn của bạn (1-7):");
                         int choice = Integer.parseInt(sc.nextLine());
                         switch (choice) {
                             case 1:
@@ -164,12 +170,12 @@ public class StudentManagement{
                                 updatePoint(st, choice, sc);
                                 break;
                             case 7:
-                                StudentManagement.displayData(sc);
                                 break;
                             default:
                                 System.out.println("Lựa chọn không phù hợp");
                         }
-                        System.out.println("Bạn có muốn tiếp tục (Y/N):");
+                        System.out.println("Cập nhật thành công");
+                        System.out.println("Bạn có muốn tiếp tục cập nhật thông tin (Y/N):");
                         select = sc.nextLine();
                     } while (select.equalsIgnoreCase("Y"));
                 }
@@ -191,7 +197,7 @@ public class StudentManagement{
                     System.out.println("Nhập vào điểm môn Java Script: ");
                     float pointJS = Float.parseFloat(sc.nextLine());
                     st.getListMarkJavaScript().addLast(pointJS);
-                    System.out.println("Bạn có muốn tiếp tục (Y/N):");
+                    System.out.println("Bạn có muốn tiếp tục thêm điểm môn Java Script (Y/N):");
                     select = sc.nextLine();
                 } while (select.equalsIgnoreCase("Y"));
                 break;
@@ -200,7 +206,7 @@ public class StudentManagement{
                     System.out.println("Nhập vào điểm môn Java Core: ");
                     float pointJC = Float.parseFloat(sc.nextLine());
                     st.getListMarkJavaCore().addLast(pointJC);
-                    System.out.println("Bạn có muốn tiếp tục (Y/N):");
+                    System.out.println("Bạn có muốn tiếp tục thêm điểm môn Java Core (Y/N):");
                     select = sc.nextLine();
                 } while (select.equalsIgnoreCase("Y"));
                 break;
@@ -209,7 +215,7 @@ public class StudentManagement{
                     System.out.println("Nhập vào điểm môn Java Web: ");
                     float pointJW = Float.parseFloat(sc.nextLine());
                     st.getListMarkJavaWeb().addLast(pointJW);
-                    System.out.println("Bạn có muốn tiếp tục (Y/N):");
+                    System.out.println("Bạn có muốn tiếp tục thêm điểm môn Java Web (Y/N):");
                     select = sc.nextLine();
                 } while (select.equalsIgnoreCase("Y"));
                 break;
@@ -281,7 +287,6 @@ public class StudentManagement{
                 } while (select.equalsIgnoreCase("Y"));
                 break;
             case 4:
-                displayData(sc);
                 break;
             default:
                 System.out.println("Lựa chọn không phù hợp");
@@ -289,7 +294,7 @@ public class StudentManagement{
     }
 
     public static void sumGpa(){
-        int countA = 0, countB =0 ,countC = 0,countF = 0;
+        int countA = 0, countB =0 ,countC = 0,countF = 0,countU = 0;
         Map<String,Integer> gpas = new HashMap<>();
         System.out.printf(" %10s | %10s |\n","Xếp Loại","Số lượng");
         for (Student st:students) {
@@ -311,6 +316,8 @@ public class StudentManagement{
                     gpas.put("Yếu",countF);
                     break;
                 default:
+                    countU++;
+                    gpas.put("Chưa xếp loại",countF);
                     break;
             }
         }
@@ -324,7 +331,7 @@ public class StudentManagement{
                 countPass++;
             }
         }
-        System.out.printf("Số lượng sinh viên qua môn là %d",countPass);
+        System.out.printf("Số lượng sinh viên qua môn là %d\n",countPass);
     }
 
 }
